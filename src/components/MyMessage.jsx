@@ -1,4 +1,8 @@
-const MyMessage =() =>{
+const MyMessage =({ message}) =>{
+
+
+
+    
     return(
         <div>
             <h1>My Message</h1>
