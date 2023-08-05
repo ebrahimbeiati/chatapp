@@ -1,16 +1,27 @@
-import { ChatEngine, ChatFeed } from "react-chat-engine";
-import React from "react";
-import axios from 'axios'; // Optional: If you're not using axios, you can remove this line.
+import React, { useState } from "react";
 import "./App.css";
+import LoginForm from "./components/LoginForm";
+import ChatFeed from "./components/ChatFeed";
+import { ChatEngine } from "react-chat-engine";
 
 function App() {
+  const [userLoggedIn, setUserLoggedIn] = useState(
+    !!localStorage.getItem("username")
+  );
+
+  if (!userLoggedIn) return <LoginForm setUserLoggedIn={setUserLoggedIn} />;
+
+  // Retrieve projectId and userSecret from process.env or .env file
+  const projectId = process.env.REACT_APP_CHAT_ENGINE_PROJECT_ID;
+  const userSecret = process.env.REACT_APP_CHAT_ENGINE_USER_SECRET;
+
   return (
     <div className="App">
       <ChatEngine
         height="100vh"
-        projectID="a0566ef8-2b24-43f5-9551-ac72ce27dd25"
+        projectID={projectId}
         userName="Ebrahim"
-        userSecret="Ebrahim1234"
+        userSecret={userSecret}
         renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
         onNewMessage={() =>
           new Audio("https://chat-engine-assets.s3.amazonaws.com/click.mp3")
